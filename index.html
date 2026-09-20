@@ -31,6 +31,26 @@
         body { font-family: 'Inter', sans-serif; }
         .font-serif { font-family: 'Playfair Display', serif; }
         .glass-card { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.25); }
+
+        .legal-project-card{background:#0f172a;border:1px solid rgba(212,175,55,.22);border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.24);transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;cursor:pointer}
+        .legal-project-card:hover{transform:translateY(-5px);border-color:rgba(212,175,55,.7);box-shadow:0 18px 38px rgba(212,175,55,.12)}
+        .legal-project-thumb{height:190px;background:#020617;overflow:hidden}
+        .legal-project-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .3s ease}
+        .legal-project-card:hover img{transform:scale(1.04)}
+        .legal-project-body{padding:16px}
+        .legal-project-cat{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#d4af37;font-weight:800}
+        .legal-project-body h3{margin-top:5px;color:#fff;font-weight:800;font-size:1rem}
+        .legal-project-body p{margin-top:6px;color:#94a3b8;font-size:.8rem;line-height:1.5}
+        .legal-project-actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+        .legal-project-actions button,.legal-project-actions a{border:1px solid #475569;border-radius:9px;padding:8px 11px;font-size:.72rem;font-weight:700;color:#e2e8f0;background:#1e293b;text-decoration:none;cursor:pointer}
+        .legal-project-actions button:hover,.legal-project-actions a:hover{border-color:#d4af37;color:#d4af37}
+        .project-preview-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(2,6,23,.88);padding:18px;align-items:center;justify-content:center}
+        .project-preview-window{width:min(1400px,100%);height:min(92vh,900px);background:#0f172a;border:1px solid rgba(212,175,55,.4);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+        .project-preview-bar{min-height:56px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155}
+        .project-preview-bar strong{color:#fff}
+        .project-preview-bar button{border:1px solid #475569;background:#1e293b;color:#fff;border-radius:8px;padding:7px 11px;cursor:pointer}
+        .project-preview-frame{width:100%;flex:1;border:0;background:#fff}
+        .project-preview-info{padding:12px 16px;border-top:1px solid #334155;color:#cbd5e1;font-size:.78rem}
     </style>
 </head>
 <body class="bg-navy-950 text-slate-100 h-full flex flex-col antialiased selection:bg-gold-500 selection:text-navy-950">
@@ -220,7 +240,18 @@
                             </div>
                         </div>
                     </section>
-                </main>
+                
+                    <section id="projects-deployments" class="py-24 bg-navy-950 border-t border-slate-800">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="text-center max-w-3xl mx-auto mb-12">
+                                <span class="text-gold-400 text-xs font-bold uppercase tracking-widest">Projects & Deployments</span>
+                                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Recent Works & Live Deployments</h2>
+                                <p class="text-slate-400 mt-3">The same project browsing experience used in the VA CODES portfolio: project-specific thumbnails, project details, live previews, and direct deployment access.</p>
+                            </div>
+                            <div id="legalProjectGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                        </div>
+                    </section>
+</main>
 
                 <footer class="bg-navy-900 border-t border-slate-800 py-8 text-center text-xs text-slate-500">
                     <p>LexiFlow Legal Automation Suite &copy; 2026. Built exclusively for VA Joy N. & Employer.</p>
@@ -864,7 +895,107 @@ Authorized by LexiFlow Automation Engine.
 
         window.onload = function() {
             render();
+            renderLegalProjects();
         };
-    </script>
+    
+        const LEGAL_PROJECTS = [
+            { name: 'Maharlika Philippines', site: 'https://ismex-philippines.vercel.app' },
+            { name: 'VA CODES', site: 'https://va-codes.vercel.app/' },
+            { name: 'JOY N COLLECTIVE', site: 'https://joy-n-collective.vercel.app/' },
+            { name: 'My Pet Shop Online', site: 'https://unfacedinternational-dev.github.io/My-petshoponline/' },
+            { name: 'Makeup', site: 'https://unfacedinternational-dev.github.io/makeup/' },
+            { name: 'Master Reference Sheet', site: 'https://unfacedinternational-dev.github.io/Master-Reference-Sheet/' },
+            { name: 'VA Profile Portfolio', site: 'https://my-va-profile-portfolio.vercel.app/' },
+            { name: 'Legal VA Portfolio', site: 'https://joy-n-portfolioprofile-legalva.vercel.app' },
+            { name: 'Medical VA Portfolio', site: 'https://medical-va-automation-system-5oas.vercel.app' },
+            { name: 'Real Estate VA Portfolio', site: 'https://joy-n-portfolioprofile-realestateva.vercel.app' }
+        ];;
+        const LEGAL_PROJECT_DETAILS = [{"name":"Maharlika Philippines","category":"Investment App","language":"Not verified","stack":["Vercel deployment","Live web application"],"about":"A Philippine investment and portfolio web application presented with market focused screens and an investment oriented user experience.","features":["Market focused screens","Investment and portfolio presentation","Live production deployment"],"how":"Users enter the live investment experience, review the available market or portfolio information, and use the provided flows presented by the application.","helps":"Provides a web based way to present investment related information and portfolio activity in one accessible interface.","deliverables":["Language breakdown: repository not available through the connected GitHub account, so percentages were not guessed.","Production deployment and responsive interface","Investment focused screens and user flows","Live project presentation"],"codeMix":[]},{"name":"VA CODES","category":"Business Portfolio","language":"HTML 100% (GitHub repository language)","stack":["HTML","CSS","JavaScript","Google Fonts","Vercel","Real project screenshots captured from each live deployment"],"about":"The VA CODES business portfolio for automation, web development, business systems, customer support, and technical services.","features":["Services showcase","Live Recent Works project previews","Preview this project modal","Deliverables and About this project dialogs","Email and phone contact popup","Developer profile and portfolio navigation","Real project screenshot thumbnail"],"how":"Visitors browse services and recent deployments, open a project preview, review its deliverables or project details, then contact Joy through email or phone.","helps":"Gives potential clients one place to understand the services, see live work, inspect project details, and start a conversation.","deliverables":["HTML 100% repository language","CSS and JavaScript embedded in the HTML","Responsive business portfolio interface","Project preview modal and live deployment previews","Contact and service presentation system","Vercel deployment with real project screenshot thumbnails"],"codeMix":[["HTML",36.1],["CSS",43.1],["JavaScript",20.8]]},{"name":"JOY N COLLECTIVE","category":"E commerce Website","language":"Not verified","stack":["Vercel deployment","E commerce interface"],"about":"A premium online collection experience built around product discovery and e commerce presentation.","features":["Product focused storefront presentation","Collection and product discovery","E commerce navigation","Responsive shopping experience"],"how":"Visitors browse the collection, move through the storefront sections, and explore products through the online shopping interface.","helps":"Presents products in a polished storefront that helps customers discover a collection and move toward shopping actions.","deliverables":["Repository language breakdown not verified from the connected GitHub account","Live production storefront","Responsive e commerce interface","Product discovery and collection presentation"],"codeMix":[]},{"name":"My Pet Shop Online","category":"E commerce Website","language":"HTML 100% (single-file repository)","stack":["HTML","CSS","JavaScript","Fredoka","Work Sans","Space Mono"],"about":"Pawstolove is a pet supplies storefront for everyday food, treats, toys, grooming, and home products.","features":["Shop, Aisles, Why Pawstolove, Community navigation","Food & Treats, Toys, Grooming, Comfort & Home categories","Product shelf and product cards","Add to cart","Cart drawer","Quantity increase/decrease","Remove from cart","Checkout button","Order confirmation area","Shipping, Returns and Contact sections"],"how":"Customers browse categories and products, add items to the cart, adjust quantities, remove items, open the cart drawer, and proceed to checkout.","helps":"Creates a simple pet shopping experience that organizes products by need and keeps the cart interaction easy to use.","deliverables":["HTML 100% repository language","CSS styling embedded in the page","JavaScript cart logic embedded in the page","Responsive storefront layout","Working cart, quantity and remove interactions","Checkout and order confirmation interface"],"codeMix":[["HTML",42.5],["CSS",42.7],["JavaScript",14.9]]},{"name":"Makeup","category":"Beauty E commerce Website","language":"HTML 100% (React/Babel runtime embedded in HTML)","stack":["HTML","JavaScript","React 18","ReactDOM 18","Babel Standalone","CSS","CDN"],"about":"Blush & Bone is a beauty shopping application with customer authentication, product management, cart and checkout flows, receipt submission, orders, and an owner dashboard.","features":["Product browsing by category","Add to bag","Cart and quantity controls","Customer Log in","Customer Sign up","Log out","My orders","Checkout","Payment confirmation","Receipt upload","Submit for review","Owner login","Owner dashboard","Orders management","Approve/reject orders","Catalog management","Add product","Edit product","Delete product","Product photo removal/upload handling"],"how":"Customers sign up or log in, browse products, add items to the bag, checkout, confirm payment, upload a receipt and submit the order for review. The owner can log in separately, review orders, approve or reject them, and manage the product catalog.","helps":"Connects product discovery, customer accounts, order submission and owner review into one shopping workflow.","deliverables":["HTML 100% repository language; React/JavaScript runs inside the HTML page","React 18 + ReactDOM 18","Babel Standalone for JSX transformation","Customer authentication UI and order flow","Receipt upload and review workflow","Owner dashboard and catalog management"],"codeMix":[["HTML",1],["CSS",0.1],["JavaScript",98.9]]},{"name":"Master Reference Sheet","category":"Productivity Tool","language":"HTML 100% (single-file repository)","stack":["HTML","CSS","JavaScript","Highlight.js 11.9.0","XML language syntax highlighting"],"about":"A complete HTML master reference and cheat sheet covering forms, metadata, accessibility, interactive widgets, performance, global attributes and the Popover API.","features":["HTML input types and form fields reference","Advanced head and SEO metadata","Accessibility and WAI-ARIA reference","Focus control guidance","Interactive widgets, popups and gauges","Performance and resource loading","Modern global attributes","Popover API","Syntax highlighted code examples","Print complete reference sheet","Ctrl + P print support"],"how":"Users browse the reference sections, inspect highlighted code examples, and print the complete reference using the print button or browser print command.","helps":"Provides a structured single page reference for developers who need quick access to practical HTML patterns and examples.","deliverables":["HTML 100% repository language","CSS and JavaScript embedded in the page","Highlight.js 11.9.0 syntax highlighting","XML language highlighting support","Print optimized reference layout","Complete HTML reference sections"],"codeMix":[["HTML",67.9],["CSS",31.9],["JavaScript",0.2]]},{"name":"VA Profile Portfolio","category":"Executive VA Portfolio","language":"HTML 100% (GitHub repository language)","stack":["HTML","CSS","JavaScript","Cusdis","FormSubmit","Google Fonts"],"about":"Joy's Executive VA portfolio presents professional services, tools, resume information, sample work, client feedback, and direct service request options.","features":["Full resume viewer","Service request categories","Calendar and inbox scheduling","Document processing","Bookkeeping assistance","Legal document support","Social media management","Web page request","General inquiry","Discreet editing","Request Service flow","Sample work showcase","Client testimonials","Email and phone contact","Comment/testimonial interface"],"how":"Visitors review the profile and resume, choose the type of assistance they need, inspect sample work, and submit a service or inquiry request.","helps":"Makes it easier for prospective clients to understand available VA services, see supporting work, and contact Joy for a specific task.","deliverables":["HTML 100% repository language","Responsive portfolio presentation","Resume and service request interface","Sample work and testimonial sections","Cusdis comment/testimonial integration","Form-based contact/service request flow"],"codeMix":[["HTML",52.8],["CSS",38.2],["JavaScript",9]]},{"name":"Legal VA Portfolio","category":"Legal Virtual Assistant Portfolio","language":"HTML 100% (single-file repository)","stack":["HTML","CSS","JavaScript","Google Workspace","Clio","Asana","Trello","ClickUp","Notion","Adobe Acrobat Pro","MS Word/Excel","DocuSign","Lawdistrict/HotDocs","Slack","MS Teams","Zoom","Calendly","Toggl","LastPass/Bitwarden"],"about":"A specialized legal VA portfolio showing professional summary, competencies, work experience, legal workflow samples, document systems, and the software stack used for legal administrative support.","features":["Professional Summary","Core Competencies","Work Experience","Standardized Pleading & Motion Formatting","Legal File Taxonomy & Cloud Organization System","Medical Records Chronology & Billing Index","Client Intake & Onboarding Workflow Checklist","Deposition Transcript Page-Line Summary","Google Workspace tools","Practice management and workflow tools","Document processing and automation tools","Communication, time and security tools","Expandable tool explanations","Why Hire Me section","Interview/contact form"],"how":"Visitors review the legal VA profile, expand sample work and tool explanations, inspect workflow examples, and use the interview/contact section to reach Joy.","helps":"Shows attorneys and legal teams how administrative work, documents, deadlines, organization and communication can be supported remotely.","deliverables":["HTML 100% repository language","Interactive expandable portfolio sections","Legal workflow and sample deliverables","Google Workspace and legal software stack presentation","Tool usage explanations and scenarios","Interview/contact form"],"codeMix":[["HTML",61.3],["CSS",34.5],["JavaScript",4.2]]},{"name":"Medical VA Automation System","category":"Medical VA Automation System","language":"HTML 100% (single-file repository)","stack":["HTML","CSS","JavaScript","Google Calendar","Calendly","Microsoft Outlook","Google Drive","MS Office","Adobe Acrobat Pro","Zoom","MS Teams","Slack","Gmail","QuickBooks Online","ChatGPT","Claude","Fireflies.ai","Fathom"],"about":"A medical virtual assistant automation system focused on scheduling, patient intake, records organization, communication, billing support, and healthcare productivity workflows.","features":["Professional Summary","Core Competencies","Work Experience","Immediate Reschedule Request Handling","Incomplete Intake & Insurance Resolution","Proactive Calendar Conflict Resolution","HIPAA-conscious records sharing protocol","AI-assisted clinical summary workflow","Scheduling and calendar tools","EHR/admin/document management tools","Communication and billing tools","AI and healthcare productivity tools","Expandable tool explanations","Why Hire Me section","Interview/contact form"],"how":"Visitors review the medical VA profile and expand the sample scenarios and tool sections to see how scheduling, records, billing, communication and productivity workflows are handled.","helps":"Demonstrates how medical administrative workload can be organized so providers can spend more time on patient care.","deliverables":["HTML 100% repository language","Interactive expandable portfolio sections","Medical administrative workflow scenarios","Scheduling, records, billing and AI tool stack","Tool usage explanations","Interview/contact form"],"codeMix":[["HTML",51.6],["CSS",44.3],["JavaScript",4.1]]},{"name":"Real Estate VA Portfolio","category":"Real Estate Virtual Assistant Portfolio","language":"HTML 100% (single-file repository)","stack":["HTML","CSS","JavaScript","Follow Up Boss","KVCore","LionDesk","HubSpot","Zillow Premier Agent","Dotloop","DocuSign","SkySlope","MLS","Redfin","Zillow","PropStream","RealEstate.com","Google Workspace","Canva","Slack","Zoom","Calendly","Loom"],"about":"A specialized real estate VA and transaction coordinator portfolio covering listings, lead management, transactions, property research, marketing and communication.","features":["Professional Summary","Core Competencies","Work Experience","MLS Listing & Description Power-Pack","Contract-to-Close Transaction Roadmap","CRM Pipeline & Automated Drip Campaigns","Open House & Social Media Marketing Kit","Vendor Coordination & Inspection Tracker","Real estate CRM and lead technology","Transaction and document management","MLS and property research","Workspace, design and communication tools","Expandable tool explanations","Why Hire Me section","Interview/contact form"],"how":"Visitors review the portfolio, expand the real estate workflow and tool sections, inspect examples for listings, transactions, lead nurturing and marketing, then use the contact section to reach Joy.","helps":"Shows agents and brokers how lead follow-up, transaction coordination, listing work, property research and marketing tasks can be handled remotely.","deliverables":["HTML 100% repository language","Interactive expandable portfolio sections","Real estate workflow and transaction examples","CRM, MLS, transaction and marketing tool stack","Tool usage explanations and scenarios","Interview/contact form"],"codeMix":[["HTML",55.8],["CSS",40.3],["JavaScript",3.9]]}];
+
+        function renderLegalProjects(){
+            const grid=document.getElementById('legalProjectGrid');
+            if(!grid)return;
+            grid.innerHTML=LEGAL_PROJECTS.map((project,index)=>{
+                const detail=LEGAL_PROJECT_DETAILS.find(item=>item.name===project.name)||{};
+                const category=detail.category||'Project';
+                const about=detail.about||'Live project deployment and portfolio work.';
+                const slug=project.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+                const thumb='https://raw.githubusercontent.com/unfacedinternational-dev/va-codes-main/main/assets/project-thumbnails/'+slug+'.svg';
+                return `<article class="legal-project-card" onclick="openLegalProject(${index})">
+                    <div class="legal-project-thumb"><img src="${thumb}" alt="${project.name} project thumbnail" onerror="this.style.display='none'"></div>
+                    <div class="legal-project-body">
+                        <div class="legal-project-cat">${category}</div>
+                        <h3>${project.name}</h3>
+                        <p>${about}</p>
+                        <div class="legal-project-actions">
+                            <button type="button" onclick="event.stopPropagation();openLegalProject(${index})">Preview</button>
+                            <button type="button" onclick="event.stopPropagation();showLegalProjectDetails(${index})">Details</button>
+                            <a href="${project.site}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Live Site ↗</a>
+                        </div>
+                    </div>
+                </article>`;
+            }).join('');
+        }
+
+        function openLegalProject(index){
+            const project=LEGAL_PROJECTS[index];
+            if(!project)return;
+            const overlay=document.getElementById('legalProjectPreview');
+            const title=document.getElementById('legalProjectPreviewTitle');
+            const frame=document.getElementById('legalProjectPreviewFrame');
+            const link=document.getElementById('legalProjectPreviewLink');
+            title.textContent=project.name+' • Live Preview';
+            frame.src=project.site;
+            link.href=project.site;
+            overlay.style.display='flex';
+            document.body.style.overflow='hidden';
+        }
+
+        function closeLegalProject(){
+            const overlay=document.getElementById('legalProjectPreview');
+            const frame=document.getElementById('legalProjectPreviewFrame');
+            if(frame)frame.src='about:blank';
+            if(overlay)overlay.style.display='none';
+            document.body.style.overflow='';
+        }
+
+        function showLegalProjectDetails(index){
+            const project=LEGAL_PROJECTS[index];
+            const detail=LEGAL_PROJECT_DETAILS.find(item=>item.name===project.name);
+            if(!detail)return;
+            const features=(detail.features||[]).map(x=>'<li>'+x+'</li>').join('');
+            const deliverables=(detail.deliverables||[]).map(x=>'<li>'+x+'</li>').join('');
+            document.getElementById('legalProjectDetailsTitle').textContent=project.name;
+            document.getElementById('legalProjectDetailsBody').innerHTML=
+                '<p><strong>About:</strong> '+(detail.about||'')+'</p>'+
+                '<p><strong>How it works:</strong> '+(detail.how||'')+'</p>'+
+                '<p><strong>Helps with:</strong> '+(detail.helps||'')+'</p>'+
+                '<p><strong>Features:</strong></p><ul>'+features+'</ul>'+
+                '<p><strong>Deliverables:</strong></p><ul>'+deliverables+'</ul>';
+            document.getElementById('legalProjectDetails').style.display='flex';
+            document.body.style.overflow='hidden';
+        }
+
+        function closeLegalProjectDetails(){
+            document.getElementById('legalProjectDetails').style.display='none';
+            document.body.style.overflow='';
+        }
+
+</script>
+
+    <div id="legalProjectPreview" class="project-preview-overlay" onclick="if(event.target===this)closeLegalProject()">
+        <div class="project-preview-window">
+            <div class="project-preview-bar"><strong id="legalProjectPreviewTitle">Live Preview</strong><div><a id="legalProjectPreviewLink" href="#" target="_blank" rel="noopener" style="color:#d4af37;margin-right:10px">Open Live ↗</a><button type="button" onclick="closeLegalProject()">Close</button></div></div>
+            <iframe id="legalProjectPreviewFrame" class="project-preview-frame" title="Project live preview"></iframe>
+            <div class="project-preview-info">If a deployment blocks embedding, use <strong>Open Live ↗</strong> to open the project directly.</div>
+        </div>
+    </div>
+    <div id="legalProjectDetails" class="project-preview-overlay" onclick="if(event.target===this)closeLegalProjectDetails()">
+        <div class="project-preview-window" style="height:min(82vh,760px);max-width:900px">
+            <div class="project-preview-bar"><strong id="legalProjectDetailsTitle">Project Details</strong><button type="button" onclick="closeLegalProjectDetails()">Close</button></div>
+            <div id="legalProjectDetailsBody" style="overflow:auto;padding:22px;color:#cbd5e1;line-height:1.7"></div>
+        </div>
+    </div>
+
 </body>
 </html>
